@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dong Ma — Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --paper: #f5f0e8;
+      --accent: #c23616;
+      --muted: #8b8578;
+      --rule: #d4cfc4;
+      --highlight: #fdf6e3;
+      --card-bg: #fffdf7;
+      --shadow: rgba(26, 26, 26, 0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      font-size: 17px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: var(--paper);
+    }
+
+    /* --- Grain overlay --- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+    }
+
+    /* --- Navigation --- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(245, 240, 232, 0.85);
+      border-bottom: 1px solid var(--rule);
+      transition: transform 0.4s ease;
+    }
+
+    nav .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    nav .logo span {
+      color: var(--accent);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav ul a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    nav ul a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav ul a:hover { color: var(--ink); }
+    nav ul a:hover::after { width: 100%; }
+
+    /* --- Hero --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.6s forwards;
+    }
+
+    .hero-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.8s forwards;
+    }
+
+    .hero-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.8rem;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .hero-links a:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .hero-links a.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .hero-links a.primary:hover {
+      background: #a52d13;
+      border-color: #a52d13;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
+    }
+
+    .scroll-hint span {
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: var(--muted);
+      margin: 0 auto;
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    /* --- Sections --- */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 0.8rem;
+    }
+
+    .section-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.3;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* --- About / Education --- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .about-text {
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: #444;
+    }
+
+    .about-text p + p {
+      margin-top: 1rem;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .info-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .info-card .date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .info-card .degree {
+      font-weight: 300;
+      font-size: 0.95rem;
+    }
+
+    /* --- Skills --- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      padding: 1.8rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .skill-group:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px var(--shadow);
+    }
+
+    .skill-group h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.35rem 0.8rem;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      color: var(--ink);
+      letter-spacing: 0.02em;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* --- Research / Timeline --- */
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--rule);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      top: 0.5rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 2px solid var(--accent);
+      transform: translateX(-4px);
+    }
+
+    .timeline-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+
+    .timeline-org {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .timeline-desc {
+      font-weight: 300;
+      font-size: 0.92rem;
+      color: #555;
+    }
+
+    .timeline-desc ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .timeline-desc li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-desc li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      background: var(--accent);
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    /* --- Publications --- */
+    .pub-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .pub-item {
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      padding: 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pub-item:hover {
+      transform: translateX(6px);
+      box-shadow: -6px 6px 0 var(--accent);
+    }
+
+    .pub-item::before {
+      content: attr(data-index);
+      position: absolute;
+      top: -0.5rem;
+      right: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--ink);
+      opacity: 0.04;
+      line-height: 1;
+    }
+
+    .pub-venue {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .pub-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .pub-authors {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .pub-authors strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .pub-abstract {
+      font-weight: 300;
+      font-size: 0.88rem;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .pub-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .pub-link:hover {
+      border-color: var(--accent);
+    }
+
+    /* --- Industry --- */
+    .exp-card {
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .exp-meta {
+      border-right: 1px solid var(--rule);
+      padding-right: 2rem;
+    }
+
+    .exp-meta h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-meta .company {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .exp-meta .date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .exp-body {
+      font-weight: 300;
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .exp-body ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .exp-body li {
+      position: relative;
+      padding-left: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-body li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* --- Footer --- */
+    footer {
+      margin-top: 3rem;
+      border-top: 2px solid var(--ink);
+      padding: 3rem 0;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .footer-left span {
+      color: var(--accent);
+    }
+
+    .footer-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .footer-right a {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-right a:hover {
+      color: var(--accent);
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 0.8; transform: scaleY(1.3); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .exp-card { grid-template-columns: 1fr; }
+      .exp-meta { border-right: none; border-bottom: 1px solid var(--rule); padding-right: 0; padding-bottom: 1.5rem; }
+      nav ul { gap: 1rem; }
+      nav ul a { font-size: 0.6rem; }
+      .section-header { flex-direction: column; gap: 0.5rem; }
+      .section-number { font-size: 2.5rem; }
+    }
+
+    /* --- Mobile nav toggle --- */
+    .nav-toggle { display: none; }
+
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+      .hero h1 { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">D<span>.</span>Ma</a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Papers</a></li>
+        <li><a href="#experience">Industry</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-label">Researcher &middot; Deep Learning &middot; Medical AI</p>
+      <h1>Dong <em>Ma</em></h1>
+      <p class="hero-sub">BEng candidate at the University of Liverpool, exploring the frontiers of deep learning, Mixture-of-Experts, and medical image segmentation.</p>
+      <div class="hero-links">
+        <a href="mailto:mars17718773020@gmail.com" class="primary">Get in Touch</a>
+        <a href="#publications">View Papers</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Education</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>I am a final-year undergraduate at the University of Liverpool (Xi'an Jiaotong-Liverpool University), majoring in Data Science and Big Data Technology. My research focuses on deep learning architectures, particularly Mixture-of-Experts frameworks and their applications in medical image segmentation.</p>
+          <p>I am passionate about building AI systems that can generalize across diverse clinical datasets, bridging the gap between academic research and real-world healthcare applications.</p>
+        </div>
+        <div class="info-card reveal">
+          <h3>The University of Liverpool</h3>
+          <div class="date">09/2022 — 06/2026</div>
+          <p class="degree">BEng in Data Science and Big Data Technology</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Skills & Interests</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <h4>Languages</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Chinese (Native)</span>
+            <span class="skill-tag">English</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <h4>Technical Stack</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">MATLAB</span>
+            <span class="skill-tag">R</span>
+            <span class="skill-tag">Anaconda</span>
+          </div>
+        </div>
+        <div class="skill-group reveal">
+          <h4>Research Interests</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Deep Learning</span>
+            <span class="skill-tag">MoE</span>
+            <span class="skill-tag">Reinforcement Learning</span>
+            <span class="skill-tag">LLMs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section id="research">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Research Experience</h2>
+      </div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-date">02/2025 — 06/2025</div>
+          <div class="timeline-title">MoE-based Multimodal Multi-site Medical Image Segmentation</div>
+          <div class="timeline-org">Collaboration with Hancang Mi</div>
+          <div class="timeline-desc">
+            <ul>
+              <li>Improved MoE-based framework for segmenting multimodal models of the brain, mammary gland, and ovaries</li>
+              <li>Proposed improvement directions, validated methods, and summarized findings</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">11/2023 — 12/2023</div>
+          <div class="badge">National 2nd Prize</div>
+          <div class="timeline-title">Targeted Detection of Road Diseases</div>
+          <div class="timeline-org">Collaboration with Hancang Mi &amp; Shuxian Wu &middot; 5th Global Campus AI Algorithm Competition</div>
+          <div class="timeline-desc">
+            <ul>
+              <li>Computer vision system to detect road damage (potholes, cracks) in road images</li>
+              <li>YOLOv8 baseline trained on 10,000 samples for 150 epochs across 4× NVIDIA 4090 GPUs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">08/2023 — 11/2023</div>
+          <div class="timeline-title">MedGPT-Quiz: Big Model in Chinese Medicine</div>
+          <div class="timeline-org">Supervised by Prof. Jianwei Lu, Shanghai University of Traditional Chinese Medicine</div>
+          <div class="timeline-desc">
+            <ul>
+              <li>Trained TCM knowledge into GPT architecture for professional Q&amp;A and reasoning</li>
+              <li>Fine-tuned LLaMA model with knowledge base integration for improved inference</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">07/2023 — 08/2023</div>
+          <div class="timeline-title">Image Recognition based on CNN</div>
+          <div class="timeline-org">CONF-MLA 2023 &middot; Co-authored with Haoyang Song</div>
+          <div class="timeline-desc">
+            <ul>
+              <li>Image classification using CNNs with TensorFlow for cat/dog recognition</li>
+              <li>Data acquisition via web crawlers with preprocessing and visual result analysis</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">07/2023 — 08/2023</div>
+          <div class="timeline-title">XJTLU Summer PDP Training</div>
+          <div class="timeline-org">In collaboration with Huawei Technologies Co., Ltd.</div>
+          <div class="timeline-desc">
+            <ul>
+              <li>Mastered AI deep neural network principles and model architecture design</li>
+              <li>Built experimental environments for AI big models; analyzed enterprise case studies (Google, Microsoft, Huawei)</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section id="publications">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Publications</h2>
+      </div>
+      <div class="pub-list">
+
+        <div class="pub-item reveal" data-index="01">
+          <div class="pub-venue">Under Review &middot; 2025</div>
+          <div class="pub-title">Organ-Aware Mixture-of-Experts Framework for Generalized Pan-Tumor Segmentation</div>
+          <div class="pub-authors">Hancang Mi, Hong Seng Gan*, <strong>Dong Ma</strong>, Mustafa Alper Selver</div>
+          <p class="pub-abstract">We introduce OAMoE, a pioneering segmentation framework incorporating anatomical prior knowledge within a two-tier expert selection mechanism. The model categorizes input scans into pools of experts guided by anatomical knowledge, then activates the top two experts via an adaptive attention-based routing strategy. Evaluated across seven multimodal datasets spanning brain, breast, and ovary, achieving state-of-the-art performance with average Dice up to 88.5%.</p>
+          <a href="BSPC-S-25-13420%20(2).pdf" class="pub-link" download="BSPC-S-25-13420.pdf">Download PDF →</a>
+        </div>
+
+        <div class="pub-item reveal" data-index="02">
+          <div class="pub-venue">Under Review &middot; 2025</div>
+          <div class="pub-title">DiffRefSeg: Diffusion-Guided Few-Shot Brain Tumor Segmentation via Reference Structure Fusion and Global Structural Attention</div>
+          <div class="pub-authors">Hancang Mi, Muhammad Hanif Ramlee, Hong Seng Gan*, Wan Mahani Hafizah Wan Mahmud, <strong>Dong Ma</strong></div>
+          <p class="pub-abstract">A coarse-to-fine few-shot segmentation pipeline integrating Reference Structure Fusion (RSF) and Global Compressed Structural Attention (GCSA) within a diffusion-based refinement backbone. Achieves Dice score of 88.31% and mIoU of 90.93% on BraTS2021, outperforming state-of-the-art methods by approximately 7%.</p>
+          <a href="DiffRefSeg-f.pdf" class="pub-link" download="DiffRefSeg-f.pdf">Download PDF →</a>
+        </div>
+
+        <div class="pub-item reveal" data-index="03">
+          <div class="pub-venue">CONF-MLA 2023</div>
+          <div class="pub-title">Image Recognition based on CNN: Distinguishing Cats and Dogs</div>
+          <div class="pub-authors"><strong>Dong Ma</strong>, Haoyang Song</div>
+          <p class="pub-abstract">Image recognition classification based on convolutional neural networks to accurately classify images into cats and dogs. CNN models implemented using TensorFlow with web-crawled datasets, presenting visual training results and discussing practical applications.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry Experience -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-number">05</span>
+        <h2 class="section-title">Industry Experience</h2>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-meta">
+          <h3>Data Annotation Intern</h3>
+          <div class="company">Petlibro Technology Co., Ltd.</div>
+          <div class="date">10/2025 — 02/2026</div>
+        </div>
+        <div class="exp-body">
+          <p style="font-weight:600; margin-bottom:0.5rem;">Automated Cat Highlight Video Processing</p>
+          <ul>
+            <li>Data annotation and evaluation for an automated cat highlight video processing pipeline</li>
+            <li>Supported multi-stage video processing including detection, enhancement, tracking, and generative content assessment</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">D<span>.</span>Ma</div>
+      <div class="footer-right">
+        <a href="mailto:mars17718773020@gmail.com">mars17718773020@gmail.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .timeline-item').forEach(el => observer.observe(el));
+
+    let lastScroll = 0;
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      const current = window.scrollY;
+      if (current > lastScroll && current > 100) {
+        nav.style.transform = 'translateY(-100%)';
+      } else {
+        nav.style.transform = 'translateY(0)';
+      }
+      lastScroll = current;
+    });
+  </script>
+
+</body>
+</html>
