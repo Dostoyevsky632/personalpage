@@ -729,6 +729,119 @@
       nav ul { display: none; }
       .hero h1 { font-size: 2.8rem; }
     }
+
+    /* --- Contact Modal --- */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(26, 26, 26, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      padding: 3rem 3.5rem;
+      max-width: 420px;
+      width: 90%;
+      position: relative;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--ink); }
+
+    .modal h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .modal .modal-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .modal .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .modal .contact-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    .modal .contact-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal .contact-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .modal .contact-value {
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .modal .contact-value a {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .modal .contact-value a:hover { color: var(--accent); }
   </style>
 </head>
 <body>
@@ -756,7 +869,7 @@
       <h1>Dong <em>Ma</em></h1>
       <p class="hero-sub">BEng candidate at the University of Liverpool, exploring the frontiers of deep learning, Mixture-of-Experts, and medical image segmentation.</p>
       <div class="hero-links">
-        <a href="mailto:mars17718773020@gmail.com" class="primary">Get in Touch</a>
+        <a href="#" class="primary" onclick="document.getElementById('contactModal').classList.add('active');return false;">Get in Touch</a>
         <a href="#publications">View Papers</a>
       </div>
     </div>
@@ -1003,6 +1116,34 @@
         nav.style.transform = 'translateY(0)';
       }
       lastScroll = current;
+    });
+  </script>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('contactModal').classList.remove('active');">&times;</button>
+      <h3>Get in Touch</h3>
+      <p class="modal-sub">Feel free to reach out</p>
+      <div class="contact-row">
+        <div class="contact-icon">&#9742;</div>
+        <div class="contact-info">
+          <span class="contact-label">Phone</span>
+          <span class="contact-value"><a href="tel:+8617718773020">+86 17718773020</a></span>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">&#9993;</div>
+        <div class="contact-info">
+          <span class="contact-label">Email</span>
+          <span class="contact-value"><a href="mailto:mars17718773020@gmail.com">mars17718773020@gmail.com</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('contactModal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('active');
     });
   </script>
 
