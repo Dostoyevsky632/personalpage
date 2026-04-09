@@ -76,16 +76,15 @@
     }
 
     nav .logo {
-      font-family: 'Playfair Display', serif;
-      font-weight: 900;
-      font-size: 1.15rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
       text-decoration: none;
     }
 
-    nav .logo span {
-      color: var(--accent);
+    nav .logo img {
+      display: block;
+      height: 2.2rem;
+      width: auto;
     }
 
     nav ul {
@@ -714,7 +713,9 @@
   <!-- Navigation -->
   <nav>
     <div class="nav-inner">
-      <a href="#" class="logo">D<span>.</span>Ma</a>
+      <a href="#" class="logo" aria-label="Home">
+        <img src="ZZ_titlelogo_jp_only.png" alt="ZZ logo">
+      </a>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
