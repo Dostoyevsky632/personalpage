@@ -545,6 +545,13 @@
       overflow: hidden;
     }
 
+    .pub-links-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
     .pub-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.68rem;
@@ -557,6 +564,22 @@
     }
 
     .pub-link:hover {
+      border-color: var(--accent);
+    }
+
+    .reflection-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .reflection-link:hover {
+      color: var(--accent);
       border-color: var(--accent);
     }
 
@@ -890,7 +913,10 @@
           <div class="pub-title">Organ-Aware Mixture-of-Experts Framework for Generalized Pan-Tumor Segmentation</div>
           <div class="pub-authors">Hancang Mi, Hong Seng Gan*, <strong>Dong Ma</strong>, Mustafa Alper Selver</div>
           <p class="pub-abstract">We introduce OAMoE, a pioneering segmentation framework incorporating anatomical prior knowledge within a two-tier expert selection mechanism. The model categorizes input scans into pools of experts guided by anatomical knowledge, then activates the top two experts via an adaptive attention-based routing strategy. Evaluated across seven multimodal datasets spanning brain, breast, and ovary, achieving state-of-the-art performance with average Dice up to 88.5%.</p>
-          <a href="BSPC-S-25-13420%20(2).pdf" class="pub-link" target="_blank">View PDF →</a>
+          <div class="pub-links-row">
+            <a href="BSPC-S-25-13420%20(2).pdf" class="pub-link" target="_blank">View PDF →</a>
+            <a href="reflections-oamoe.html" class="reflection-link">Reflections on This Work →</a>
+          </div>
         </div>
 
         <div class="pub-item reveal" data-index="02">
@@ -898,7 +924,10 @@
           <div class="pub-title">DiffRefSeg: Diffusion-Guided Few-Shot Brain Tumor Segmentation via Reference Structure Fusion and Global Structural Attention</div>
           <div class="pub-authors">Hancang Mi, Muhammad Hanif Ramlee, Hong Seng Gan*, Wan Mahani Hafizah Wan Mahmud, <strong>Dong Ma</strong></div>
           <p class="pub-abstract">A coarse-to-fine few-shot segmentation pipeline integrating Reference Structure Fusion (RSF) and Global Compressed Structural Attention (GCSA) within a diffusion-based refinement backbone. Achieves Dice score of 88.31% and mIoU of 90.93% on BraTS2021, outperforming state-of-the-art methods by approximately 7%.</p>
-          <a href="DiffRefSeg-f.pdf" class="pub-link" target="_blank">View PDF →</a>
+          <div class="pub-links-row">
+            <a href="DiffRefSeg-f.pdf" class="pub-link" target="_blank">View PDF →</a>
+            <a href="reflections-diffrefseg.html" class="reflection-link">Reflections on This Work →</a>
+          </div>
         </div>
 
         <div class="pub-item reveal" data-index="03">
@@ -906,6 +935,10 @@
           <div class="pub-title">Image Recognition based on CNN: Distinguishing Cats and Dogs</div>
           <div class="pub-authors"><strong>Dong Ma</strong>, Haoyang Song</div>
           <p class="pub-abstract">Image recognition classification based on convolutional neural networks to accurately classify images into cats and dogs. CNN models implemented using TensorFlow with web-crawled datasets, presenting visual training results and discussing practical applications.</p>
+          <div class="pub-links-row">
+            <span></span>
+            <a href="reflections-cnn.html" class="reflection-link">Reflections on This Work →</a>
+          </div>
         </div>
 
       </div>
