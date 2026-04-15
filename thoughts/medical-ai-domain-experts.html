@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Medical AI Needs Domain Experts — Dong Ma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --paper: #f5f0e8;
+      --accent: #c23616;
+      --muted: #8b8578;
+      --rule: #d4cfc4;
+      --card-bg: #fffdf7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+    }
+
+    .container { max-width: 680px; margin: 0 auto; padding: 0 2rem; }
+
+    header { padding: 2rem 0; border-bottom: 1px solid var(--rule); }
+    header .container { display: flex; justify-content: space-between; align-items: center; }
+
+    .back-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    article { padding: 4rem 0; }
+
+    .post-meta { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+
+    .post-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .post-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    .post-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      color: var(--muted);
+    }
+
+    .post-content p { margin-bottom: 1.5rem; font-weight: 300; font-size: 1.05rem; }
+
+    .post-content p:first-child::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      float: left;
+      line-height: 1;
+      margin-right: 0.6rem;
+      margin-top: 0.1rem;
+      color: var(--accent);
+    }
+
+    .post-content blockquote {
+      margin: 2rem 0;
+      padding: 1.5rem 2rem;
+      border-left: 3px solid var(--accent);
+      background: var(--card-bg);
+      font-style: italic;
+      color: #555;
+    }
+
+    .post-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+    }
+
+    .post-nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 2rem;
+    }
+
+    .post-nav a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .post-nav a:hover { color: var(--accent); }
+
+    footer { border-top: 2px solid var(--ink); padding: 2rem 0; }
+    footer .container { display: flex; justify-content: space-between; align-items: center; }
+    .footer-left { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; }
+    .footer-left span { color: var(--accent); }
+    .footer-right { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); }
+    .footer-right a { color: var(--ink); text-decoration: none; }
+    .footer-right a:hover { color: var(--accent); }
+
+    .fade-in { opacity: 0; transform: translateY(20px); animation: fadeUp 0.6s ease 0.1s forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a href="../thoughts.html" class="back-link">← All Thoughts</a>
+      <a href="../index.html" class="logo">D<span>.</span>Ma</a>
+    </div>
+  </header>
+
+  <article class="container fade-in">
+    <div class="post-meta">
+      <div class="post-date">January 22, 2026</div>
+      <h1 class="post-title">Why Medical AI Needs Domain Experts</h1>
+      <div class="post-tags">
+        <span class="post-tag">Medical AI</span>
+        <span class="post-tag">Ethics</span>
+      </div>
+    </div>
+
+    <div class="post-content">
+      <p>Collaborating with clinicians on our segmentation work revealed how much context we miss as pure ML practitioners. The importance of interpretability in healthcare cannot be overstated, and I've come to believe that the future of medical AI depends on deep collaboration between technologists and domain experts.</p>
+
+      <p>A radiologist doesn't just want accurate segmentation—they want to understand why the model made a decision. They need to trust it. And trust isn't built through accuracy metrics alone.</p>
+
+      <h2>The Interpretability Imperative</h2>
+
+      <p>Our attention visualization work in OAMoE directly addresses this challenge. By showing which experts activate for which anatomical features, we build interpretable, trustworthy systems. When a clinician can see that the model is focusing on the right regions for the right reasons, they can integrate it into their workflow with confidence.</p>
+
+      <blockquote>
+        The future of medical AI isn't just about accuracy—it's about building tools that clinicians can integrate into their workflow with confidence.
+      </blockquote>
+
+      <p>This is fundamentally different from the typical ML mindset, where we often treat the model as a black box and focus solely on output quality. In medicine, the reasoning process matters as much as the result.</p>
+
+      <h2>What I Learned from Clinicians</h2>
+
+      <p>Working with medical professionals taught me several lessons that have changed my approach:</p>
+
+      <p>First, clinical context is everything. A segmentation that looks perfect by standard metrics might miss something clinically significant. Radiologists don't just identify structures—they look for subtle signs that might indicate disease progression or treatment response.</p>
+
+      <p>Second, workflow integration matters enormously. The best model is useless if it doesn't fit into existing clinical workflows. This means considering not just accuracy, but also speed, interface design, and how the output is presented.</p>
+
+      <p>Third, uncertainty quantification is crucial. Clinicians need to know when the model is confident and when it's unsure. A model that's wrong with high confidence is worse than one that honestly admits uncertainty.</p>
+
+      <h2>Building Bridges</h2>
+
+      <p>I've come to see my role not just as an ML researcher, but as a bridge-builder between two worlds. This requires learning to communicate in ways that clinicians understand, and learning to ask the right questions about their needs.</p>
+
+      <p>The papers we write are for the ML community. But the systems we build are for clinicians and, ultimately, for patients. Keeping that end user in mind has made me a better researcher.</p>
+    </div>
+
+    <div class="post-nav">
+      <a href="papers-vs-practice.html">← Prev: The Gap Between Papers and Practice</a>
+      <a href="competition-failures.html">Next: Learning from Competition Failures →</a>
+    </div>
+  </article>
+
+  <footer>
+    <div class="container">
+      <div class="footer-left">D<span>.</span>Ma</div>
+      <div class="footer-right">
+        <a href="mailto:mars17718773020@gmail.com">mars17718773020@gmail.com</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
